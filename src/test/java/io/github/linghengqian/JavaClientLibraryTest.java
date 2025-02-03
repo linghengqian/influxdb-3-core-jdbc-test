@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 @SuppressWarnings("resource")
 @Testcontainers
-class JavaClientTest {
+class JavaClientLibraryTest {
 
     @Container
     private final GenericContainer<?> container = new GenericContainer<>("quay.io/influxdb/influxdb3-core:911ba92ab4133e75fe2a420e16ed9cb4cf32196f")

@@ -10,9 +10,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.time.Instant;
 import java.util.stream.Stream;
 
-@SuppressWarnings("resource")
+@SuppressWarnings({"resource", "HttpUrlsUsage"})
 @Testcontainers
-class JavaClientLibraryTest {
+class Influxdb3JavaTest {
 
     @Container
     private final GenericContainer<?> container = new GenericContainer<>("quay.io/influxdb/influxdb3-core:911ba92ab4133e75fe2a420e16ed9cb4cf32196f")
@@ -24,7 +24,7 @@ class JavaClientLibraryTest {
         try (InfluxDBClient client = InfluxDBClient.getInstance(
                 "http://" + container.getHost() + ":" + container.getMappedPort(8181),
                 null,
-                "custom_db")) {
+                "linghengqian_db")) {
             writeData(client);
             queryData(client);
         } catch (Exception e) {

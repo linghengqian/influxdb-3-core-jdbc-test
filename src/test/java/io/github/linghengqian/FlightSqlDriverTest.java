@@ -54,12 +54,13 @@ public class FlightSqlDriverTest {
         try (HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig)) {
             try (Connection connection = hikariDataSource.getConnection()) {
                 ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM home");
-                resultSet.next();
+                assertThat(resultSet.next(), is(true));
                 assertThat(resultSet.getString(1), is("London"));
                 // todo why fail?
 // assertThat(resultSet.getString(2), is(magicTime.atOffset(ZoneOffset.UTC).toLocalDateTime().toString()));
                 assertThat(resultSet.getString(2), notNullValue());
                 assertThat(resultSet.getString(3), is("30.01"));
+                assertThat(resultSet.next(), is(false));
             }
         }
     }

@@ -82,14 +82,14 @@ public class FlightSqlTest {
         FlightInfo flightInfo = sqlClient.execute(query, auth);
         Ticket ticket = flightInfo.getEndpoints().getFirst().getTicket();
         final FlightStream stream = sqlClient.getStream(ticket, auth);
-        while (stream.next()) {
-            final VectorSchemaRoot root = stream.getRoot();
-            // todo why LocalDateTime?
-            assertThat(root.contentToTSVString(), is("""
-                    location	time	value
-                    London	%s	30.01
-                    """.formatted(magicTime.atOffset(ZoneOffset.UTC).toLocalDateTime())));
-        }
+        assertThat(stream.next(), is(true));
+        final VectorSchemaRoot root = stream.getRoot();
+        // todo why LocalDateTime?
+        assertThat(root.contentToTSVString(), is("""
+                location	time	value
+                London	%s	30.01
+                """.formatted(magicTime.atOffset(ZoneOffset.UTC).toLocalDateTime())));
+        assertThat(stream.next(), is(false));
         stream.close();
         sqlClient.close();
     }

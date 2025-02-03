@@ -23,10 +23,16 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.Instant;
+import java.time.ZoneOffset;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @SuppressWarnings({"HttpUrlsUsage", "resource"})
 @Testcontainers
 public class FlightSqlTest {
+
+    private final Instant magicTime = Instant.now().minusSeconds(10);
 
     @Container
     private final GenericContainer<?> container = new GenericContainer<>("quay.io/influxdb/influxdb3-core:911ba92ab4133e75fe2a420e16ed9cb4cf32196f")
@@ -34,16 +40,13 @@ public class FlightSqlTest {
             .withExposedPorts(8181);
 
     @Test
-    void test() {
+    void test() throws Exception {
         try (InfluxDBClient client = InfluxDBClient.getInstance(
                 "http://" + container.getHost() + ":" + container.getMappedPort(8181),
                 null,
-                "linghengqian_db")) {
+                "mydb")) {
             writeData(client);
             queryData();
-        } catch (Exception e) {
-            System.err.println("An error occurred while connecting to InfluxDB!");
-            throw new RuntimeException(e);
         }
     }
 
@@ -51,22 +54,15 @@ public class FlightSqlTest {
         Point point = Point.measurement("home")
                 .setTag("location", "London")
                 .setField("value", 30.01)
-                .setTimestamp(Instant.now().minusSeconds(10));
-        try {
-            client.writePoint(point);
-            System.out.println("Data is written to the bucket.");
-        } catch (Exception e) {
-            System.err.println("Failed to write data to the bucket.");
-            throw new RuntimeException(e);
-        }
+                .setTimestamp(magicTime);
+        client.writePoint(point);
     }
 
-    private void queryData() {
-        System.out.println("Query InfluxDB with the Java Flight SQL Client");
+    private void queryData() throws Exception {
         Factory f = info -> new FlightClientMiddleware() {
             @Override
             public void onBeforeSendingHeaders(CallHeaders outgoingHeaders) {
-                outgoingHeaders.insert("database", "linghengqian_db");
+                outgoingHeaders.insert("database", "mydb");
             }
 
             @Override
@@ -80,31 +76,21 @@ public class FlightSqlTest {
         Location location = Location.forGrpcInsecure(container.getHost(), container.getMappedPort(8181));
         BufferAllocator allocator = new RootAllocator(Long.MAX_VALUE);
         FlightClient client = FlightClient.builder(allocator, location).intercept(f).build();
-        System.out.println("client" + client);
         FlightSqlClient sqlClient = new FlightSqlClient(client);
-        System.out.println("sqlClient: " + sqlClient);
         String query = "SELECT * FROM home";
         CredentialCallOption auth = new CredentialCallOption(new BearerCredentialWriter(null));
         FlightInfo flightInfo = sqlClient.execute(query, auth);
         Ticket ticket = flightInfo.getEndpoints().getFirst().getTicket();
         final FlightStream stream = sqlClient.getStream(ticket, auth);
         while (stream.next()) {
-            try {
-                final VectorSchemaRoot root = stream.getRoot();
-                System.out.println(root.contentToTSVString());
-            } catch (Exception e) {
-                System.out.println("Error executing FlightSqlClient: " + e.getMessage());
-            }
+            final VectorSchemaRoot root = stream.getRoot();
+            // todo why LocalDateTime?
+            assertThat(root.contentToTSVString(), is("""
+                    location	time	value
+                    London	%s	30.01
+                    """.formatted(magicTime.atOffset(ZoneOffset.UTC).toLocalDateTime())));
         }
-        try {
-            stream.close();
-        } catch (Exception e) {
-            System.out.println("Error closing stream: " + e.getMessage());
-        }
-        try {
-            sqlClient.close();
-        } catch (Exception e) {
-            System.out.println("Error closing client: " + e.getMessage());
-        }
+        stream.close();
+        sqlClient.close();
     }
 }

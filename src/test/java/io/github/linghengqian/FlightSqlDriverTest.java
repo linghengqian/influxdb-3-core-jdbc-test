@@ -57,7 +57,7 @@ public class FlightSqlDriverTest {
                 assertThat(resultSet.next(), is(true));
                 assertThat(resultSet.getString(1), is("London"));
                 // todo why fail?
-// assertThat(resultSet.getString(2), is(magicTime.atOffset(ZoneOffset.UTC).toLocalDateTime().toString()));
+                // assertThat(resultSet.getString(2), is(magicTime.atOffset(ZoneOffset.UTC).toLocalDateTime().toString()));
                 assertThat(resultSet.getString(2), notNullValue());
                 assertThat(resultSet.getString(3), is("30.01"));
                 assertThat(resultSet.next(), is(false));

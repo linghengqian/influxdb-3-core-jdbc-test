@@ -87,7 +87,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
                 <configuration>
-                    <argLine>--add-opens=java.base/java.nio=org.apache.arrow.memory.core,ALL-UNNAMED</argLine>
+                    <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
         </plugins>

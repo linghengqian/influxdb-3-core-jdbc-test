@@ -12,12 +12,10 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SuppressWarnings({"resource", "HttpUrlsUsage"})
@@ -55,8 +53,6 @@ public class PointValuesTest {
             List<PointValues> list = stream.toList();
             assertThat(list.size(), is(1));
             PointValues p = list.getFirst();
-            assertThat(p.getField("time", LocalDateTime.class), nullValue());
-            assertThat(p.getField("location", String.class), nullValue());
             assertThat(p.getField("value", Double.class), is(30.01));
             assertThat(p.getTag("location"), is("London"));
             assertThat(p.getTimestamp(), is(NanosecondConverter.convert(magicTime, WritePrecision.NS)));

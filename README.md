@@ -1,6 +1,7 @@
 # influxdb-3-core-jdbc-test
 
 - For,
+  - https://github.com/testcontainers/testcontainers-java/issues/9528
   - https://github.com/InfluxCommunity/influxdb3-java/issues/219
   - https://github.com/InfluxCommunity/influxdb3-java/issues/220
   - https://github.com/InfluxCommunity/influxdb3-java/issues/221

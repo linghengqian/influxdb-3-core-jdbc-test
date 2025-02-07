@@ -84,7 +84,7 @@ public class FlightSqlTest {
         final FlightStream stream = sqlClient.getStream(ticket, auth);
         assertThat(stream.next(), is(true));
         final VectorSchemaRoot root = stream.getRoot();
-        // todo why LocalDateTime?
+        // todo linghengqian why LocalDateTime?
         assertThat(root.contentToTSVString(), is("""
                 location	time	value
                 London	%s	30.01

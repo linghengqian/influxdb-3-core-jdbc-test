@@ -17,9 +17,6 @@ import java.util.stream.Stream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-/**
- * todo linghengqian why internal class from {@link com.influxdb.v3.client.internal.NanosecondConverter} ?
- */
 @SuppressWarnings({"resource", "HttpUrlsUsage"})
 @Testcontainers
 public class SqlParamsTest {

@@ -2,6 +2,10 @@ package io.github.linghengqian;
 
 import com.influxdb.v3.client.InfluxDBClient;
 import com.influxdb.v3.client.Point;
+import com.influxdb.v3.client.PointValues;
+import com.influxdb.v3.client.internal.NanosecondConverter;
+import com.influxdb.v3.client.query.QueryOptions;
+import com.influxdb.v3.client.write.WritePrecision;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.Test;
@@ -14,6 +18,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -21,7 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @SuppressWarnings({"SqlNoDataSourceInspection", "HttpUrlsUsage", "resource"})
 @Testcontainers
-public class FlightSqlDriverTest {
+public class TimeDifferenceTest {
 
     private final Instant magicTime = Instant.now().minusSeconds(10);
 
@@ -37,7 +43,8 @@ public class FlightSqlDriverTest {
                 null,
                 "mydb")) {
             writeData(client);
-            queryData();
+            queryDataByInfluxDbClient(client);
+            queryDataByJdbcDriver();
         }
     }
 
@@ -49,7 +56,19 @@ public class FlightSqlDriverTest {
         client.writePoint(point);
     }
 
-    private void queryData() throws SQLException {
+    private void queryDataByInfluxDbClient(InfluxDBClient client) {
+        try (Stream<PointValues> stream = client.queryPoints("select time,location,value from home order by time desc limit 10",
+                QueryOptions.DEFAULTS)) {
+            List<PointValues> list = stream.toList();
+            assertThat(list.size(), is(1));
+            PointValues p = list.getFirst();
+            assertThat(p.getField("value", Double.class), is(30.01));
+            assertThat(p.getTag("location"), is("London"));
+            assertThat(p.getTimestamp(), is(NanosecondConverter.convert(magicTime, WritePrecision.NS)));
+        }
+    }
+
+    private void queryDataByJdbcDriver() throws SQLException {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl("jdbc:arrow-flight-sql://" + container.getHost() + ":" + container.getMappedPort(8181) + "/?useEncryption=0&database=mydb");
         try (HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
@@ -61,7 +80,7 @@ public class FlightSqlDriverTest {
             assertThat(Timestamp.from(magicTime).getTime(), is(magicTime.toEpochMilli()));
             assertThat(resultSet.getString("time"), notNullValue());
             // todo linghengqian why fail?
-            // assertThat(resultSet.getTimestamp("time").getTime(), is(magicTime.toEpochMilli()));
+            assertThat(resultSet.getTimestamp("time").getTime(), is(magicTime.toEpochMilli()));
         }
     }
 }

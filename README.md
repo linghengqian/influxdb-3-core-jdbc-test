@@ -8,6 +8,7 @@
   - https://github.com/InfluxCommunity/influxdb3-java/pull/223
   - https://github.com/InfluxCommunity/influxdb3-java/issues/222
   - https://github.com/InfluxCommunity/influxdb3-java/issues/224
+  - https://github.com/influxdata/influxdb/issues/25983
 - Verified unit test under Ubuntu 22.04.4 LTS with `SDKMAN!` and `Docker CE`.
 
 ```shell

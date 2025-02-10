@@ -33,7 +33,7 @@ public class TimeDifferenceTest {
 
     @Container
     private final GenericContainer<?> container = new GenericContainer<>("quay.io/influxdb/influxdb3-core:911ba92ab4133e75fe2a420e16ed9cb4cf32196f")
-            .withCommand("serve --node-id local01 --object-store file --data-dir /home/influxdb3/.influxdb3")
+            .withCommand("serve --node-id local01 --object-store file --data-dir /home/influxdb3/.influxdb3 -v")
             .withExposedPorts(8181);
 
     @Test
@@ -78,7 +78,8 @@ public class TimeDifferenceTest {
             assertThat(resultSet.getString("location"), is("London"));
             assertThat(resultSet.getString("value"), is("30.01"));
             assertThat(Timestamp.from(magicTime).getTime(), is(magicTime.toEpochMilli()));
-            assertThat(resultSet.getString("time"), notNullValue());
+            assertThat(resultSet.getTimestamp("time"), notNullValue());
+            System.out.println(container.getLogs());
             // todo linghengqian why fail?
             assertThat(resultSet.getTimestamp("time").getTime(), is(magicTime.toEpochMilli()));
         }

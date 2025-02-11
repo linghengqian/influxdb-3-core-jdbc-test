@@ -33,7 +33,7 @@ public class TimeDifferenceTest {
 
     @Container
     private final GenericContainer<?> container = new GenericContainer<>("quay.io/influxdb/influxdb3-core:911ba92ab4133e75fe2a420e16ed9cb4cf32196f")
-            .withCommand("serve --node-id local01 --object-store file --data-dir /home/influxdb3/.influxdb3 -v")
+            .withCommand("serve --node-id local01 --object-store memory -v")
             .withExposedPorts(8181);
 
     @Test

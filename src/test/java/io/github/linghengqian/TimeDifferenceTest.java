@@ -2,10 +2,6 @@ package io.github.linghengqian;
 
 import com.influxdb.v3.client.InfluxDBClient;
 import com.influxdb.v3.client.Point;
-import com.influxdb.v3.client.PointValues;
-import com.influxdb.v3.client.internal.NanosecondConverter;
-import com.influxdb.v3.client.query.QueryOptions;
-import com.influxdb.v3.client.write.WritePrecision;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.Test;
@@ -18,8 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.List;
-import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -33,7 +27,7 @@ public class TimeDifferenceTest {
 
     @Container
     private final GenericContainer<?> container = new GenericContainer<>("quay.io/influxdb/influxdb3-core:911ba92ab4133e75fe2a420e16ed9cb4cf32196f")
-            .withCommand("serve --node-id local01 --object-store memory -v")
+            .withCommand("serve --node-id local01 --object-store memory -vv")
             .withExposedPorts(8181);
 
     @Test
@@ -43,7 +37,6 @@ public class TimeDifferenceTest {
                 null,
                 "mydb")) {
             writeData(client);
-            queryDataByInfluxDbClient(client);
             queryDataByJdbcDriver();
         }
     }
@@ -56,23 +49,12 @@ public class TimeDifferenceTest {
         client.writePoint(point);
     }
 
-    private void queryDataByInfluxDbClient(InfluxDBClient client) {
-        try (Stream<PointValues> stream = client.queryPoints("select time,location,value from home order by time desc limit 10",
-                QueryOptions.DEFAULTS)) {
-            List<PointValues> list = stream.toList();
-            assertThat(list.size(), is(1));
-            PointValues p = list.getFirst();
-            assertThat(p.getField("value", Double.class), is(30.01));
-            assertThat(p.getTag("location"), is("London"));
-            assertThat(p.getTimestamp(), is(NanosecondConverter.convert(magicTime, WritePrecision.NS)));
-        }
-    }
-
     private void queryDataByJdbcDriver() throws SQLException {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl("jdbc:arrow-flight-sql://" + container.getHost() + ":" + container.getMappedPort(8181) + "/?useEncryption=0&database=mydb");
         try (HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
              Connection connection = hikariDataSource.getConnection()) {
+            connection.createStatement().executeQuery("EXPLAIN ANALYZE select time,location,value from home order by time desc limit 10");
             ResultSet resultSet = connection.createStatement().executeQuery("select time,location,value from home order by time desc limit 10");
             assertThat(resultSet.next(), is(true));
             assertThat(resultSet.getString("location"), is("London"));

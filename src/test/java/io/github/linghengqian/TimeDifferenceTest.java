@@ -51,19 +51,9 @@ public class TimeDifferenceTest {
         hikariConfig.setJdbcUrl("jdbc:arrow-flight-sql://" + container.getHost() + ":" + container.getMappedPort(8181) + "/?useEncryption=0&database=mydb");
         try (HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
              Connection connection = hikariDataSource.getConnection()) {
-            ResultSet analyze = connection.createStatement().executeQuery("EXPLAIN ANALYZE select time,location,value from home order by time desc limit 10");
-            ResultSetMetaData metaData = analyze.getMetaData();
-            int columnCount = metaData.getColumnCount();
-            for (int i = 1; i <= columnCount; i++) {
-                System.out.print(metaData.getColumnName(i) + "\t");
-            }
+            extracted(connection.createStatement().executeQuery("EXPLAIN ANALYZE select time,location,value from home order by time desc limit 10"));
             System.out.println("\n----------------------------------");
-            while (analyze.next()) {
-                for (int i = 1; i <= columnCount; i++) {
-                    System.out.print(analyze.getObject(i) + "\t");
-                }
-                System.out.println();
-            }
+            extracted(connection.createStatement().executeQuery("select time,location,value from home order by time desc limit 10"));
             System.out.println("\n----------------------------------");
             ResultSet resultSet = connection.createStatement().executeQuery("select time,location,value from home order by time desc limit 10");
             assertThat(resultSet.next(), is(true));
@@ -74,6 +64,21 @@ public class TimeDifferenceTest {
             System.out.println(container.getLogs());
             // todo linghengqian why fail?
             assertThat(resultSet.getTimestamp("time").getTime(), is(magicTime.toEpochMilli()));
+        }
+    }
+
+    private static void extracted(ResultSet resultSet) throws SQLException {
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        int columnCount = metaData.getColumnCount();
+        for (int i = 1; i <= columnCount; i++) {
+            System.out.print(metaData.getColumnName(i) + "\t");
+        }
+        System.out.println("\n----------------------------------");
+        while (resultSet.next()) {
+            for (int i = 1; i <= columnCount; i++) {
+                System.out.print(resultSet.getObject(i) + "\t");
+            }
+            System.out.println();
         }
     }
 }

@@ -9,7 +9,9 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Instant;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -24,7 +26,7 @@ public class TimeDifferenceTest {
 
     @Container
     private final GenericContainer<?> container = new GenericContainer<>("quay.io/influxdb/influxdb3-core:911ba92ab4133e75fe2a420e16ed9cb4cf32196f")
-            .withCommand("serve --node-id local01 --object-store memory -vv")
+            .withCommand("serve --node-id local01 --object-store memory")
             .withExposedPorts(8181);
 
     @Test
@@ -51,34 +53,13 @@ public class TimeDifferenceTest {
         hikariConfig.setJdbcUrl("jdbc:arrow-flight-sql://" + container.getHost() + ":" + container.getMappedPort(8181) + "/?useEncryption=0&database=mydb");
         try (HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
              Connection connection = hikariDataSource.getConnection()) {
-            extracted(connection.createStatement().executeQuery("EXPLAIN ANALYZE select time,location,value from home order by time desc limit 10"));
-            System.out.println("\n----------------------------------");
-            extracted(connection.createStatement().executeQuery("select time,location,value from home order by time desc limit 10"));
-            System.out.println("\n----------------------------------");
             ResultSet resultSet = connection.createStatement().executeQuery("select time,location,value from home order by time desc limit 10");
             assertThat(resultSet.next(), is(true));
             assertThat(resultSet.getString("location"), is("London"));
             assertThat(resultSet.getString("value"), is("30.01"));
-            assertThat(Timestamp.from(magicTime).getTime(), is(magicTime.toEpochMilli()));
             assertThat(resultSet.getTimestamp("time"), notNullValue());
-            System.out.println(container.getLogs());
             // todo linghengqian why fail?
-            assertThat(resultSet.getTimestamp("time").getTime(), is(magicTime.toEpochMilli()));
-        }
-    }
-
-    private static void extracted(ResultSet resultSet) throws SQLException {
-        ResultSetMetaData metaData = resultSet.getMetaData();
-        int columnCount = metaData.getColumnCount();
-        for (int i = 1; i <= columnCount; i++) {
-            System.out.print(metaData.getColumnName(i) + "\t");
-        }
-        System.out.println("\n----------------------------------");
-        while (resultSet.next()) {
-            for (int i = 1; i <= columnCount; i++) {
-                System.out.print(resultSet.getObject(i) + "\t");
-            }
-            System.out.println();
+            assertThat(resultSet.getTimestamp("time").toInstant(), is(magicTime));
         }
     }
 }

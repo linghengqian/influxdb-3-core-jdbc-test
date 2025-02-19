@@ -1,5 +1,7 @@
 package io.github.linghengqian;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.net.URIBuilder;
 import com.influxdb.v3.client.InfluxDBClient;
 import com.influxdb.v3.client.Point;
 import com.zaxxer.hikari.HikariConfig;
@@ -9,10 +11,18 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.time.ZoneOffset;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -36,6 +46,7 @@ public class TimeDifferenceTest {
                 null,
                 "mydb")) {
             writeData(client);
+            queryDataByHttp();
             queryDataByJdbcDriver();
         }
     }
@@ -46,6 +57,22 @@ public class TimeDifferenceTest {
                 .setField("value", 30.01)
                 .setTimestamp(magicTime);
         client.writePoint(point);
+    }
+
+    private void queryDataByHttp() throws URISyntaxException, IOException, InterruptedException {
+        URI uri = new URIBuilder().setScheme("http")
+                .setHost(container.getHost())
+                .setPort(container.getMappedPort(8181))
+                .setPath("/api/v3/query_sql")
+                .setParameter("db", "mydb")
+                .setParameter("q", "select time,location,value from home order by time desc limit 10")
+                .build();
+        HttpResponse<String> response = HttpClient.newHttpClient()
+                .send(HttpRequest.newBuilder().uri(uri).GET().build(), BodyHandlers.ofString());
+        assertThat(
+                new ObjectMapper().readTree(response.body()).get(0).get("time").asText(),
+                is(magicTime.atOffset(ZoneOffset.UTC).toLocalDateTime().toString())
+        );
     }
 
     private void queryDataByJdbcDriver() throws SQLException {

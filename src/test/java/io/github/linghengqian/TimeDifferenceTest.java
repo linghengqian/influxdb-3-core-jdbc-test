@@ -25,7 +25,6 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SuppressWarnings({"SqlNoDataSourceInspection", "HttpUrlsUsage", "resource"})
@@ -84,9 +83,7 @@ public class TimeDifferenceTest {
             assertThat(resultSet.next(), is(true));
             assertThat(resultSet.getString("location"), is("London"));
             assertThat(resultSet.getString("value"), is("30.01"));
-            assertThat(resultSet.getTimestamp("time"), notNullValue());
-            // todo linghengqian why fail?
-            assertThat(resultSet.getTimestamp("time").toInstant(), is(magicTime));
+            assertThat(resultSet.getObject("time", Instant.class), is(magicTime));
         }
     }
 }

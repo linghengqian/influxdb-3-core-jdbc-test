@@ -16,7 +16,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SuppressWarnings({"SqlNoDataSourceInspection", "HttpUrlsUsage", "resource"})
@@ -59,9 +58,7 @@ public class FlightSqlDriverTest {
             assertThat(resultSet.getString("location"), is("London"));
             assertThat(resultSet.getString("value"), is("30.01"));
             assertThat(Timestamp.from(magicTime).getTime(), is(magicTime.toEpochMilli()));
-            assertThat(resultSet.getString("time"), notNullValue());
-            // todo linghengqian why fail?
-            // assertThat(resultSet.getTimestamp("time").getTime(), is(magicTime.toEpochMilli()));
+            assertThat(resultSet.getObject("time", Instant.class), is(magicTime));
         }
     }
 }

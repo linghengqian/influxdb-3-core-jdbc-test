@@ -2,6 +2,7 @@
 
 - For,
   - https://github.com/testcontainers/testcontainers-java/issues/9528
+  - https://github.com/docker-java/docker-java/issues/2177
   - https://github.com/InfluxCommunity/influxdb3-java/issues/219
   - https://github.com/InfluxCommunity/influxdb3-java/issues/220
   - https://github.com/InfluxCommunity/influxdb3-java/issues/221

@@ -14,6 +14,7 @@
   - https://github.com/apache/arrow-java/issues/463
   - https://github.com/influxdata/docs-v2/issues/5862
   - https://github.com/influxdata/docs-v2/issues/5863
+  - https://github.com/influxdata/influxdb/issues/26119
 - Verified unit test under Ubuntu 22.04.4 LTS with `SDKMAN!` and `Docker CE`.
 
 ```shell

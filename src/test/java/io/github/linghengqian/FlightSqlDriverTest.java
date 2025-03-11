@@ -12,7 +12,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.Instant;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -57,7 +56,6 @@ public class FlightSqlDriverTest {
             assertThat(resultSet.next(), is(true));
             assertThat(resultSet.getString("location"), is("London"));
             assertThat(resultSet.getString("value"), is("30.01"));
-            assertThat(Timestamp.from(magicTime).getTime(), is(magicTime.toEpochMilli()));
             assertThat(resultSet.getObject("time", Instant.class), is(magicTime));
         }
     }

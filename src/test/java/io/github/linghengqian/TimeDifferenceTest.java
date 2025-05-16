@@ -22,10 +22,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings({"SqlNoDataSourceInspection", "HttpUrlsUsage", "resource"})
 @Testcontainers
@@ -83,7 +85,8 @@ public class TimeDifferenceTest {
             assertThat(resultSet.next(), is(true));
             assertThat(resultSet.getString("location"), is("London"));
             assertThat(resultSet.getString("value"), is("30.01"));
-            assertThat(resultSet.getObject("time", Instant.class), is(magicTime));
+            assertThat(resultSet.getObject("time", LocalDateTime.class), is(magicTime.atOffset(ZoneOffset.UTC).toLocalDateTime()));
+            assertThrows(SQLException.class, () -> resultSet.getObject("time", Instant.class), "See https://github.com/apache/arrow-java/issues/732 .");
         }
     }
 }

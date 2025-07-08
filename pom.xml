@@ -43,6 +43,7 @@
             <groupId>org.apache.arrow</groupId>
             <artifactId>flight-sql</artifactId>
             <version>18.3.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.influxdb</groupId>

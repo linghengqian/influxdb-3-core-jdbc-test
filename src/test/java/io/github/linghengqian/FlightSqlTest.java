@@ -18,12 +18,15 @@ import org.apache.arrow.memory.BufferAllocator;
 import org.apache.arrow.memory.RootAllocator;
 import org.apache.arrow.vector.VectorSchemaRoot;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.containers.Container.ExecResult;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -35,19 +38,24 @@ public class FlightSqlTest {
     private final Instant magicTime = Instant.now().minusSeconds(10);
 
     @Container
-    private final GenericContainer<?> container = new GenericContainer<>("quay.io/influxdb/influxdb3-core:911ba92ab4133e75fe2a420e16ed9cb4cf32196f")
-            .withCommand("serve --node-id local01 --object-store file --data-dir /home/influxdb3/.influxdb3")
+    private final GenericContainer<?> container = new GenericContainer<>("influxdb:3.2.1-core")
+            .withCommand("influxdb3 serve --node-id local01 --object-store file --data-dir /home/influxdb3/.influxdb3")
             .withExposedPorts(8181);
 
     @Test
     void test() throws Exception {
+        ExecResult result = container.execInContainer("influxdb3", "create", "token", "--admin");
+        assertThat(result.getExitCode(), is(0));
+        Matcher matcher = Pattern.compile("Token:\\s*(\\S+)").matcher(result.getStdout());
+        assertThat(matcher.find(), is(true));
+        String token = matcher.group(1);
         try (InfluxDBClient client = InfluxDBClient.getInstance(
                 "http://" + container.getHost() + ":" + container.getMappedPort(8181),
-                null,
+                token.toCharArray(),
                 "mydb")) {
             writeData(client);
-            queryData();
         }
+        queryData(token);
     }
 
     private void writeData(InfluxDBClient client) {
@@ -58,7 +66,7 @@ public class FlightSqlTest {
         client.writePoint(point);
     }
 
-    private void queryData() throws Exception {
+    private void queryData(String token) throws Exception {
         Factory f = info -> new FlightClientMiddleware() {
             @Override
             public void onBeforeSendingHeaders(CallHeaders outgoingHeaders) {
@@ -78,7 +86,7 @@ public class FlightSqlTest {
         FlightClient client = FlightClient.builder(allocator, location).intercept(f).build();
         FlightSqlClient sqlClient = new FlightSqlClient(client);
         String query = "SELECT * FROM home";
-        CredentialCallOption auth = new CredentialCallOption(new BearerCredentialWriter(null));
+        CredentialCallOption auth = new CredentialCallOption(new BearerCredentialWriter(token));
         FlightInfo flightInfo = sqlClient.execute(query, auth);
         Ticket ticket = flightInfo.getEndpoints().getFirst().getTicket();
         final FlightStream stream = sqlClient.getStream(ticket, auth);

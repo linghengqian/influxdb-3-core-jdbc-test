@@ -2,6 +2,10 @@
 
 - For,
   - https://github.com/testcontainers/testcontainers-java/issues/9528
+  - https://github.com/influxdata/influxdb/issues/26593
+  - https://github.com/influxdata/docs-v2/issues/5863
+  - https://github.com/influxdata/influxdb/issues/26119
+  - https://github.com/apache/arrow-java/issues/732
   - https://github.com/docker-java/docker-java/issues/2177
   - https://github.com/InfluxCommunity/influxdb3-java/issues/219
   - https://github.com/InfluxCommunity/influxdb3-java/issues/220
@@ -14,9 +18,6 @@
   - https://github.com/apache/arrow-java/pull/464
   - https://github.com/apache/arrow-java/issues/463
   - https://github.com/influxdata/docs-v2/issues/5862
-  - https://github.com/influxdata/docs-v2/issues/5863
-  - https://github.com/influxdata/influxdb/issues/26119
-  - https://github.com/apache/arrow-java/issues/732
 - Verified unit test under Ubuntu 22.04.4 LTS with `SDKMAN!` and `Docker CE`.
 
 ```shell

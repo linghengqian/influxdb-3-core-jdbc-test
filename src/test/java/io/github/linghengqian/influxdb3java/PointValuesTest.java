@@ -57,7 +57,7 @@ public class PointValuesTest {
 
     private void queryData(InfluxDBClient client) {
         try (Stream<PointValues> stream = client.queryPoints("select time,location,value from home order by time desc limit 10",
-                QueryOptions.DEFAULTS)) {
+                QueryOptions.defaultInfluxQlQueryOptions())) {
             List<PointValues> list = stream.toList();
             assertThat(list.size(), is(1));
             PointValues p = list.getFirst();

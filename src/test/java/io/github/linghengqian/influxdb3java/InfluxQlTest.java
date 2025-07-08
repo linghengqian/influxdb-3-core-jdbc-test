@@ -57,7 +57,7 @@ class InfluxQlTest {
 
     private void queryData(InfluxDBClient client) {
         try (Stream<Object[]> stream = client.query("select time,location,value from home order by time desc limit 10",
-                QueryOptions.INFLUX_QL)) {
+                QueryOptions.defaultInfluxQlQueryOptions())) {
             List<Object[]> list = stream.toList();
             assertThat(list.size(), is(1));
             Object[] row = list.getFirst();

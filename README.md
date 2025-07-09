@@ -2,7 +2,6 @@
 
 - For,
   - https://github.com/testcontainers/testcontainers-java/issues/9528
-  - https://github.com/influxdata/influxdb/issues/26593
   - https://github.com/influxdata/docs-v2/issues/5863
   - https://github.com/influxdata/influxdb/issues/26119
   - https://github.com/apache/arrow-java/issues/732
@@ -18,6 +17,7 @@
   - https://github.com/apache/arrow-java/pull/464
   - https://github.com/apache/arrow-java/issues/463
   - https://github.com/influxdata/docs-v2/issues/5862
+  - https://github.com/influxdata/influxdb/issues/26593
 - Verified unit test under Ubuntu 22.04.4 LTS with `SDKMAN!` and `Docker CE`.
 
 ```shell
@@ -56,7 +56,7 @@ PS D:\TwinklingLiftWorks\git\public\influxdb-3-core-jdbc-test> ./mvnw -T 1C clea
 [INFO] 
 [INFO] --- clean:3.2.0:clean (default-clean) @ influxdb-3-core-jdbc-test ---
 [INFO] Deleting D:\TwinklingLiftWorks\git\public\influxdb-3-core-jdbc-test\target
-[INFO]
+[INFO] 
 [INFO] --- resources:3.3.1:resources (default-resources) @ influxdb-3-core-jdbc-test ---
 [INFO] skip non existing resourceDirectory D:\TwinklingLiftWorks\git\public\influxdb-3-core-jdbc-test\src\main\resources
 [INFO]
@@ -80,39 +80,39 @@ PS D:\TwinklingLiftWorks\git\public\influxdb-3-core-jdbc-test> ./mvnw -T 1C clea
 SLF4J(W): No SLF4J providers were found.
 SLF4J(W): Defaulting to no-operation (NOP) logger implementation
 SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
-7月 08, 2025 11:46:18 上午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.BaseAllocator <clinit>
+7月 09, 2025 2:07:28 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.BaseAllocator <clinit>
 信息: Debug mode disabled. Enable with the VM option -Darrow.memory.debug.allocator=true.
-7月 08, 2025 11:46:18 上午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.DefaultAllocationManagerOption getDefaultAllocationManagerFactory
+7月 09, 2025 2:07:28 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.DefaultAllocationManagerOption getDefaultAllocationManagerFactory
 信息: allocation manager type not specified, using netty as the default type
-7月 08, 2025 11:46:18 上午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.CheckAllocator reportResult
+7月 09, 2025 2:07:28 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.CheckAllocator reportResult
 信息: Using DefaultAllocationManager at memory/netty/DefaultAllocationManagerFactory.class
-7月 08, 2025 11:46:19 上午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
+7月 09, 2025 2:07:34 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
 警告: Type implements CloseableResource but not AutoCloseable: org.testcontainers.junit.jupiter.TestcontainersExtension$StoreAdapter
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.118 s -- in io.github.linghengqian.FlightSqlDriverTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.77 s -- in io.github.linghengqian.FlightSqlDriverTest
 [INFO] Running io.github.linghengqian.FlightSqlTest
-7月 08, 2025 11:46:23 上午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
+7月 09, 2025 2:07:38 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
 警告: Type implements CloseableResource but not AutoCloseable: org.testcontainers.junit.jupiter.TestcontainersExtension$StoreAdapter
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.294 s -- in io.github.linghengqian.FlightSqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.195 s -- in io.github.linghengqian.FlightSqlTest
 [INFO] Running io.github.linghengqian.influxdb3java.InfluxQlTest
-7月 08, 2025 11:46:27 上午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
+7月 09, 2025 2:07:42 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
 警告: Type implements CloseableResource but not AutoCloseable: org.testcontainers.junit.jupiter.TestcontainersExtension$StoreAdapter
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.102 s -- in io.github.linghengqian.influxdb3java.InfluxQlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.896 s -- in io.github.linghengqian.influxdb3java.InfluxQlTest
 [INFO] Running io.github.linghengqian.influxdb3java.PointValuesTest
-7月 08, 2025 11:46:31 上午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
+7月 09, 2025 2:07:46 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
 警告: Type implements CloseableResource but not AutoCloseable: org.testcontainers.junit.jupiter.TestcontainersExtension$StoreAdapter
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.967 s -- in io.github.linghengqian.influxdb3java.PointValuesTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.980 s -- in io.github.linghengqian.influxdb3java.PointValuesTest
 [INFO] Running io.github.linghengqian.influxdb3java.SqlParamsTest
-7月 08, 2025 11:46:35 上午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
+7月 09, 2025 2:07:50 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
 警告: Type implements CloseableResource but not AutoCloseable: org.testcontainers.junit.jupiter.TestcontainersExtension$StoreAdapter
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.976 s -- in io.github.linghengqian.influxdb3java.SqlParamsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.950 s -- in io.github.linghengqian.influxdb3java.SqlParamsTest
 [INFO] Running io.github.linghengqian.influxdb3java.SqlTest
-7月 08, 2025 11:46:39 上午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
+7月 09, 2025 2:07:54 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
 警告: Type implements CloseableResource but not AutoCloseable: org.testcontainers.junit.jupiter.TestcontainersExtension$StoreAdapter
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.008 s -- in io.github.linghengqian.influxdb3java.SqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.011 s -- in io.github.linghengqian.influxdb3java.SqlTest
 [INFO] Running io.github.linghengqian.TimeDifferenceTest
-7月 08, 2025 11:46:43 上午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
+7月 09, 2025 2:07:58 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
 警告: Type implements CloseableResource but not AutoCloseable: org.testcontainers.junit.jupiter.TestcontainersExtension$StoreAdapter
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.165 s -- in io.github.linghengqian.TimeDifferenceTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.025 s -- in io.github.linghengqian.TimeDifferenceTest
 [INFO] 
 [INFO] Results:
 [INFO]
@@ -121,7 +121,7 @@ SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  33.865 s (Wall Clock)
-[INFO] Finished at: 2025-07-08T11:46:44+08:00
+[INFO] Total time:  49.961 s (Wall Clock)
+[INFO] Finished at: 2025-07-09T14:07:59+08:00
 [INFO] ------------------------------------------------------------------------
 ```

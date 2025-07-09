@@ -7,7 +7,6 @@ import com.influxdb.v3.client.Point;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.containers.Container.ExecResult;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -25,8 +24,6 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,11 +42,16 @@ public class TimeDifferenceTest {
 
     @Test
     void test() throws Exception {
-        ExecResult result = container.execInContainer("influxdb3", "create", "token", "--admin");
-        assertThat(result.getExitCode(), is(0));
-        Matcher matcher = Pattern.compile("Token:\\s*(\\S+)").matcher(result.getStdout());
-        assertThat(matcher.find(), is(true));
-        String token = matcher.group(1);
+        HttpResponse<String> response = HttpClient.newHttpClient().send(
+                HttpRequest.newBuilder()
+                        .uri(new URI("http://%s:%d/api/v3/configure/token/admin".formatted(container.getHost(), container.getMappedPort(8181))))
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .header("Accept", "application/json")
+                        .header("Content-Type", "application/json")
+                        .build(),
+                BodyHandlers.ofString()
+        );
+        String token = new ObjectMapper().readTree(response.body()).get("token").asText();
         try (InfluxDBClient client = InfluxDBClient.getInstance(
                 "http://" + container.getHost() + ":" + container.getMappedPort(8181),
                 token.toCharArray(),

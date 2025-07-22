@@ -6,6 +6,7 @@
   - https://github.com/influxdata/influxdb/issues/26119 , Supports executing Insert SQL to InfluxDB 3 Core via Arrow Flight API
   - https://github.com/apache/arrow-java/issues/732 , Flight SQL JDBC: Fix timezone/timestamp handling
   - https://github.com/influxdata/influxdb/issues/26581 , Timestamp columns in system tables should use UTC timezone
+  - https://github.com/InfluxCommunity/influxdb3-java/issues/249 ,`com.influxdb:influxdb3:1.2.0` does not work with JDK 24
   - https://github.com/docker-java/docker-java/issues/2177
   - https://github.com/InfluxCommunity/influxdb3-java/issues/219
   - https://github.com/InfluxCommunity/influxdb3-java/issues/220

@@ -46,7 +46,7 @@ PS D:\TwinklingLiftWorks\git\public\influxdb-3-core-jdbc-test> ./mvnw -T 1C clea
 [INFO] 
 [INFO] --- clean:3.2.0:clean (default-clean) @ influxdb-3-core-jdbc-test ---
 [INFO] Deleting D:\TwinklingLiftWorks\git\public\influxdb-3-core-jdbc-test\target
-[INFO] 
+[INFO]
 [INFO] --- resources:3.3.1:resources (default-resources) @ influxdb-3-core-jdbc-test ---
 [INFO] skip non existing resourceDirectory D:\TwinklingLiftWorks\git\public\influxdb-3-core-jdbc-test\src\main\resources
 [INFO]
@@ -70,27 +70,27 @@ PS D:\TwinklingLiftWorks\git\public\influxdb-3-core-jdbc-test> ./mvnw -T 1C clea
 SLF4J(W): No SLF4J providers were found.
 SLF4J(W): Defaulting to no-operation (NOP) logger implementation
 SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
-7月 22, 2025 3:42:47 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.BaseAllocator <clinit>
+7月 22, 2025 4:06:46 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.BaseAllocator <clinit>
 信息: Debug mode disabled. Enable with the VM option -Darrow.memory.debug.allocator=true.
-7月 22, 2025 3:42:47 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.DefaultAllocationManagerOption getDefaultAllocationManagerFactory
+7月 22, 2025 4:06:46 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.DefaultAllocationManagerOption getDefaultAllocationManagerFactory
 信息: allocation manager type not specified, using netty as the default type
-7月 22, 2025 3:42:47 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.CheckAllocator reportResult
+7月 22, 2025 4:06:46 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.CheckAllocator reportResult
 信息: Using DefaultAllocationManager at memory/netty/DefaultAllocationManagerFactory.class
-7月 22, 2025 3:42:48 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
+7月 22, 2025 4:06:47 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
 警告: Type implements CloseableResource but not AutoCloseable: org.testcontainers.junit.jupiter.TestcontainersExtension$StoreAdapter
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.823 s -- in io.github.linghengqian.FlightSqlDriverTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.293 s -- in io.github.linghengqian.FlightSqlDriverTest
 [INFO] Running io.github.linghengqian.FlightSqlTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.148 s -- in io.github.linghengqian.FlightSqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.552 s -- in io.github.linghengqian.FlightSqlTest
 [INFO] Running io.github.linghengqian.influxdb3java.InfluxQlTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.001 s -- in io.github.linghengqian.influxdb3java.InfluxQlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.050 s -- in io.github.linghengqian.influxdb3java.InfluxQlTest
 [INFO] Running io.github.linghengqian.influxdb3java.PointValuesTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.874 s -- in io.github.linghengqian.influxdb3java.PointValuesTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.078 s -- in io.github.linghengqian.influxdb3java.PointValuesTest
 [INFO] Running io.github.linghengqian.influxdb3java.SqlParamsTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.771 s -- in io.github.linghengqian.influxdb3java.SqlParamsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.949 s -- in io.github.linghengqian.influxdb3java.SqlParamsTest
 [INFO] Running io.github.linghengqian.influxdb3java.SqlTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.846 s -- in io.github.linghengqian.influxdb3java.SqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.001 s -- in io.github.linghengqian.influxdb3java.SqlTest
 [INFO] Running io.github.linghengqian.TimeDifferenceTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.924 s -- in io.github.linghengqian.TimeDifferenceTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.920 s -- in io.github.linghengqian.TimeDifferenceTest
 [INFO] 
 [INFO] Results:
 [INFO]
@@ -99,8 +99,8 @@ SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  33.207 s (Wall Clock)
-[INFO] Finished at: 2025-07-22T15:43:12+08:00
+[INFO] Total time:  36.053 s (Wall Clock)
+[INFO] Finished at: 2025-07-22T16:07:13+08:00
 [INFO] ------------------------------------------------------------------------
 ```
 

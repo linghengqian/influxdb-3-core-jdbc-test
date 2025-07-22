@@ -103,7 +103,7 @@ SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
 [INFO] ------------------------------------------------------------------------
 ```
 
-# Test individually
+## Test individually
 
 Can be tested individually.
 

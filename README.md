@@ -6,7 +6,7 @@
   - https://github.com/influxdata/influxdb/issues/26119 , Supports executing Insert SQL to InfluxDB 3 Core via Arrow Flight API
   - https://github.com/apache/arrow-java/issues/732 , Flight SQL JDBC: Fix timezone/timestamp handling
   - https://github.com/influxdata/influxdb/issues/26581 , Timestamp columns in system tables should use UTC timezone
-  - https://github.com/InfluxCommunity/influxdb3-java/issues/249 , `com.influxdb:influxdb3:1.2.0` does not work with JDK 24
+  - https://github.com/InfluxCommunity/influxdb3-java/issues/249
   - https://github.com/docker-java/docker-java/issues/2177
   - https://github.com/InfluxCommunity/influxdb3-java/issues/219
   - https://github.com/InfluxCommunity/influxdb3-java/issues/220
@@ -35,6 +35,10 @@ cd ./influxdb-3-core-jdbc-test/
 
 ```shell
 PS D:\TwinklingLiftWorks\git\public\influxdb-3-core-jdbc-test> ./mvnw -T 1C clean test
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/C:/Users/lingh/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
 [INFO] Scanning for projects...
 [INFO] 
 [INFO] Using the MultiThreadedBuilder implementation with a thread count of 16
@@ -70,27 +74,31 @@ PS D:\TwinklingLiftWorks\git\public\influxdb-3-core-jdbc-test> ./mvnw -T 1C clea
 SLF4J(W): No SLF4J providers were found.
 SLF4J(W): Defaulting to no-operation (NOP) logger implementation
 SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
-7月 22, 2025 4:06:46 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.BaseAllocator <clinit>
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::allocateMemory has been called by io.netty.util.internal.PlatformDependent0$2 (file:/C:/Users/lingh/.m2/repository/io/netty/netty-common/4.2.3.Final/netty-common-4.2.3.Final.jar)
+WARNING: Please consider reporting this to the maintainers of class io.netty.util.internal.PlatformDependent0$2
+WARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release
+7月 23, 2025 4:49:46 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.BaseAllocator <clinit>
 信息: Debug mode disabled. Enable with the VM option -Darrow.memory.debug.allocator=true.
-7月 22, 2025 4:06:46 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.DefaultAllocationManagerOption getDefaultAllocationManagerFactory
+7月 23, 2025 4:49:46 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.DefaultAllocationManagerOption getDefaultAllocationManagerFactory
 信息: allocation manager type not specified, using netty as the default type
-7月 22, 2025 4:06:46 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.CheckAllocator reportResult
+7月 23, 2025 4:49:46 下午 org.apache.arrow.driver.jdbc.shaded.org.apache.arrow.memory.CheckAllocator reportResult
 信息: Using DefaultAllocationManager at memory/netty/DefaultAllocationManagerFactory.class
-7月 22, 2025 4:06:47 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
+7月 23, 2025 4:49:47 下午 org.junit.jupiter.engine.descriptor.AbstractExtensionContext lambda$createCloseAction$1
 警告: Type implements CloseableResource but not AutoCloseable: org.testcontainers.junit.jupiter.TestcontainersExtension$StoreAdapter
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.293 s -- in io.github.linghengqian.FlightSqlDriverTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.768 s -- in io.github.linghengqian.FlightSqlDriverTest
 [INFO] Running io.github.linghengqian.FlightSqlTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.552 s -- in io.github.linghengqian.FlightSqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.244 s -- in io.github.linghengqian.FlightSqlTest
 [INFO] Running io.github.linghengqian.influxdb3java.InfluxQlTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.050 s -- in io.github.linghengqian.influxdb3java.InfluxQlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.918 s -- in io.github.linghengqian.influxdb3java.InfluxQlTest
 [INFO] Running io.github.linghengqian.influxdb3java.PointValuesTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.078 s -- in io.github.linghengqian.influxdb3java.PointValuesTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.994 s -- in io.github.linghengqian.influxdb3java.PointValuesTest
 [INFO] Running io.github.linghengqian.influxdb3java.SqlParamsTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.949 s -- in io.github.linghengqian.influxdb3java.SqlParamsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.953 s -- in io.github.linghengqian.influxdb3java.SqlParamsTest
 [INFO] Running io.github.linghengqian.influxdb3java.SqlTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.001 s -- in io.github.linghengqian.influxdb3java.SqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.896 s -- in io.github.linghengqian.influxdb3java.SqlTest
 [INFO] Running io.github.linghengqian.TimeDifferenceTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.920 s -- in io.github.linghengqian.TimeDifferenceTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.059 s -- in io.github.linghengqian.TimeDifferenceTest
 [INFO] 
 [INFO] Results:
 [INFO]
@@ -99,8 +107,8 @@ SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  36.053 s (Wall Clock)
-[INFO] Finished at: 2025-07-22T16:07:13+08:00
+[INFO] Total time:  33.011 s (Wall Clock)
+[INFO] Finished at: 2025-07-23T16:50:12+08:00
 [INFO] ------------------------------------------------------------------------
 ```
 

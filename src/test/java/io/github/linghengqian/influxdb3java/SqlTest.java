@@ -27,7 +27,7 @@ public class SqlTest {
     private final Instant magicTime = Instant.now().minusSeconds(10);
 
     @Container
-    private final GenericContainer<?> container = new GenericContainer<>("influxdb:3.2.1-core")
+    private final GenericContainer<?> container = new GenericContainer<>("influxdb:3.3.0-core")
             .withCommand("influxdb3 serve --node-id local01 --object-store file --data-dir /home/influxdb3/.influxdb3")
             .withExposedPorts(8181);
 

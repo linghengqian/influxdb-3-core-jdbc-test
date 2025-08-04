@@ -57,13 +57,21 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!--TODO wait https://github.com/InfluxCommunity/influxdb3-java/issues/249 -->
             <dependency>
-                <!--TODO wait https://github.com/InfluxCommunity/influxdb3-java/issues/249 -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-bom</artifactId>
                 <version>4.2.3.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!--TODO wait https://github.com/testcontainers/testcontainers-java/issues/9528 -->
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>2.19.2</version>
+                <scope>import</scope>
+                <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -107,12 +115,6 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-annotations</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 

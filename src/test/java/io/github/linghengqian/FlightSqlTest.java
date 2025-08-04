@@ -99,7 +99,7 @@ public class FlightSqlTest {
         final FlightStream stream = sqlClient.getStream(ticket, auth);
         assertThat(stream.next(), is(true));
         final VectorSchemaRoot root = stream.getRoot();
-        // todo linghengqian why LocalDateTime?
+        // todo linghengqian why LocalDateTime? See https://github.com/influxdata/influxdb/issues/26581 .
         assertThat(root.contentToTSVString(), is("""
                 location	time	value
                 London	%s	30.01
